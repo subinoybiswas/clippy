@@ -15,7 +15,12 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
+.background {
+  background-image: url("/blob-scene-haikei.svg");
+  background-repeat: no-repeat;
+  background-size: cover; /* Adjust as needed */
+  /* Add other background properties like position, etc. */
+}
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
