@@ -3,7 +3,7 @@ import { Button, Input, Snippet, Spinner, Textarea } from "@nextui-org/react";
 import { NextUIProvider } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import GetPage from "./components/getPage"; // Import the getPage component
+import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
 export default function Home() {
   const router = useRouter();
@@ -50,6 +50,7 @@ export default function Home() {
             label="Make your Clippy"
             placeholder="Add your Clip"
             labelPlacement="outside"
+            value={text}
             onChange={(e) => setText(e.target.value)}
           />
           {loading ? (
@@ -63,6 +64,19 @@ export default function Home() {
               onClick={() => createClippy()}
             >
               Create
+            </Button>
+          )}
+          {submitted && (
+            <Button
+              color="primary"
+              aria-label="Reset"
+              onClick={() => {
+                setText("");
+                setCode("");
+                setSubmitted(false);
+              }}
+            >
+              <GrPowerReset />
             </Button>
           )}
         </div>
