@@ -6,21 +6,28 @@ import {
   Input,
   NextUIProvider,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
   const [content, setContent] = useState("Hello");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const theId = clippyId;
   const fetchAndHydrate = async (clippyId: string) => {
     setLoading(true);
-    const response = await fetch(`/api/getPage/${clippyId}`);
+    const response = await fetch("/api/getPage", {
+      method: "POST",
+      body: JSON.stringify({ clippyId }),
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await response.json();
     setContent(data.content);
     setLoading(false);
   };
-  console.log(clippyIds);
+  useEffect(() => {
+    fetchAndHydrate(theId);
+  }, []);
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">

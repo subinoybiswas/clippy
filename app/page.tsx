@@ -55,7 +55,7 @@ export default function Home() {
           {loading ? (
             <Spinner />
           ) : submitted ? (
-            <Snippet>{code}</Snippet>
+            <Snippet symbol="">{code}</Snippet>
           ) : (
             <Button
               color="primary"
