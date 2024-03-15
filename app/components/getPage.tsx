@@ -9,11 +9,13 @@ import {
 import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
   const [content, setContent] = useState("Hello");
   const [loading, setLoading] = useState(true);
   const theId = clippyId;
+  const router = useRouter();
   const fetchAndHydrate = async (clippyId: string) => {
     setLoading(true);
     const response = await fetch("/api/getPage", {
@@ -21,6 +23,11 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
       body: JSON.stringify({ clippyId }),
       headers: { "Content-Type": "application/json" },
     });
+    if (!response.ok) {
+      setLoading(false);
+      router.push("/");
+      return;
+    }
     const data = await response.json();
     setContent(data.content);
     setLoading(false);
@@ -28,6 +35,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   useEffect(() => {
     fetchAndHydrate(theId);
   }, []);
+  
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
