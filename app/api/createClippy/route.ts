@@ -6,23 +6,14 @@ import crypto from "crypto";
 export async function POST(req: Request) {
   const request = await req.json();
 
-  function generateRandomString(length: number) {
+  function generateRandomString() {
     // Generate random bytes
-    const buffer = crypto.randomBytes(length);
+    const buffer = crypto.randomBytes(3);
 
     // Convert bytes to a hex string
-    let hexString = buffer.toString("hex");
+    const hexString = buffer.toString("hex");
 
-    // Add hyphens at appropriate positions
-    let result = "";
-    for (let i = 0; i < hexString.length; i++) {
-      if (i > 0 && i % 4 === 0) {
-        result += "-";
-      }
-      result += hexString[i];
-    }
-
-    return result;
+    return hexString;
   }
 
   // Connect to MongoDB
@@ -32,18 +23,16 @@ export async function POST(req: Request) {
   const client = new MongoClient(uri);
   await client.connect();
 
-  // Access the database and collection
   const db = client.db(dbname);
   const collection = db.collection(dbcollection);
-  const id = generateRandomString(6);
-  // Create the entry
+  const id = generateRandomString();
   const entry = {
     id: id,
     text: request.text,
+    expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   };
   await collection.insertOne(entry);
 
-  // Close the connection
   await client.close();
 
   return NextResponse.json({ id: id });
