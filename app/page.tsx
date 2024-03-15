@@ -48,8 +48,6 @@ export default function Home() {
           <Divider className="my-4" />
           <Textarea
             label="Make your Clippy"
-            placeholder="Add your Clip"
-            labelPlacement="outside"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />

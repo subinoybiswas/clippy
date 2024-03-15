@@ -64,15 +64,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             Get
           </Button>
           <Divider className="my-4" />
-          {loading ? (
-            <Spinner />
-          ) : (
-            <Textarea
-              label="Content"
-              labelPlacement="outside"
-              value={content}
-            />
-          )}
+          {loading ? <Spinner /> : <Textarea label="Content" value={content} />}
 
           <Button
             isIconOnly
