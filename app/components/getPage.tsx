@@ -35,11 +35,20 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   useEffect(() => {
     fetchAndHydrate(theId);
   }, []);
-  
+
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
+          <Button
+            className="self-start"
+            color="primary"
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            Return
+          </Button>
           <Input
             type="text"
             label="Clippy ID"
@@ -55,7 +64,15 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             Get
           </Button>
           <Divider className="my-4" />
-          {loading ? <Spinner /> : <Textarea value={content} />}
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Textarea
+              label="Content"
+              labelPlacement="outside"
+              value={content}
+            />
+          )}
 
           <Button
             isIconOnly
