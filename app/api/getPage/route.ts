@@ -20,6 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ content: result.text });
     } else {
       console.log("No data found");
+      return NextResponse.json({ content: null }, { status: 404 });
     }
   } catch (error) {
     console.error(error);

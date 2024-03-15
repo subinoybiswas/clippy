@@ -7,33 +7,41 @@ export async function POST(req: Request) {
   const request = await req.json();
 
   function generateRandomString() {
-    // Generate random bytes
-    const buffer = crypto.randomBytes(3);
+    const randomNumber =
+      Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+    const numberString = randomNumber.toString();
 
-    // Convert bytes to a hex string
-    const hexString = buffer.toString("hex");
+    const formattedString =
+      numberString.slice(0, 3) + "-" + numberString.slice(3, 6);
 
-    return hexString;
+    return formattedString;
   }
 
-  // Connect to MongoDB
   const uri = process.env.MONGO_URI as string;
   const dbname = process.env.MONGO_DB_NAME as string;
   const dbcollection = process.env.MONGO_COLLECTION_NAME as string;
   const client = new MongoClient(uri);
-  await client.connect();
+  try {
+    await client.connect();
 
-  const db = client.db(dbname);
-  const collection = db.collection(dbcollection);
-  const id = generateRandomString();
-  const entry = {
-    id: id,
-    text: request.text,
-    expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-  };
-  await collection.insertOne(entry);
+    const db = client.db(dbname);
+    const collection = db.collection(dbcollection);
+    const id = generateRandomString();
+    const entry = {
+      id: id,
+      text: request.text,
+      expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    };
+    await collection.insertOne(entry);
 
-  await client.close();
+    await client.close();
 
-  return NextResponse.json({ id: id });
+    return NextResponse.json({ id: id });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
