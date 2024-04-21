@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/react";
 
 export default function Home() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -126,6 +126,7 @@ export default function Home() {
                         // Do something with the response
                         setUrl(res[0].url);
                         createClippy({ text, url: res[0].url });
+                        onClose();
                         console.log("Files: ", res[0].url);
                       }}
                       onUploadError={(error: Error) => {
