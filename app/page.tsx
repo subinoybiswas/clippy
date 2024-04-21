@@ -26,6 +26,20 @@ export default function Home() {
   const getPage = (clippyId: string) => {
     router.push(`/${clippyId}`);
   };
+  const handleClippyIdChange = (e) => {
+    const input = e.target.value;
+    const numericInput = input.replace(/[^\d]/g, "");
+
+    if (numericInput.length > 6) return;
+
+    const formattedInput =
+      numericInput.slice(0, 3) +
+      (numericInput.length > 3 ? "-" + numericInput.slice(3) : "");
+
+    const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
+    setClippyId(isBackspace ? numericInput : formattedInput);
+  };
+
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
@@ -33,8 +47,9 @@ export default function Home() {
           <Input
             type="text"
             label="Clippy ID"
+            value={clippyId}
             onChange={(e) => {
-              setClippyId(e.target.value);
+              handleClippyIdChange(e);
             }}
           />
           <Button
