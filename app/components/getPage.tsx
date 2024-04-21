@@ -5,14 +5,17 @@ import {
   Textarea,
   Input,
   NextUIProvider,
+  Snippet,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { text } from "stream/consumers";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
-  const [content, setContent] = useState("Hello");
+  const [content, setContent] = useState(null);
+  const [url, setUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const theId = clippyId;
   const router = useRouter();
@@ -29,7 +32,13 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
       return;
     }
     const data = await response.json();
-    setContent(data.content);
+    if (data.content && data.content.text) {
+      setContent(data.content.text);
+    }
+    if (data.content && data.content.url) {
+      setUrl(data.content.url);
+    }
+
     setLoading(false);
   };
 
@@ -79,14 +88,21 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             Get
           </Button>
           <Divider className="my-4" />
-          {loading ? <Spinner /> : <Textarea label="Content" value={content} />}
+          {loading ? (
+            <Spinner />
+          ) : content ? (
+            <Textarea label="Content" value={content} />
+          ) : null}
+          {url && !loading ? <Snippet symbol="">{url}</Snippet> : null}
 
           <Button
             isIconOnly
             color="primary"
             aria-label="Copy to clipboard"
             onClick={() => {
-              navigator.clipboard.writeText(content);
+              if (content) {
+                navigator.clipboard.writeText(content);
+              }
             }}
           >
             <FaRegCopy></FaRegCopy>

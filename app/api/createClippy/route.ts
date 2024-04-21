@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
-import { text } from "stream/consumers";
-import crypto from "crypto";
+
 
 export async function POST(req: Request) {
   const request = await req.json();
-
+  console.log("Got Request for", request);
   function generateRandomString() {
     const randomNumber =
       Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
@@ -30,6 +29,7 @@ export async function POST(req: Request) {
     const entry = {
       id: id,
       text: request.text,
+      url: request.url,
       expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
     };
     await collection.insertOne(entry);

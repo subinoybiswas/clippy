@@ -5,21 +5,24 @@ import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
-import { UploadButton } from "@/app/utils/uploadthing";
+import { UploadDropzone } from "@/app/utils/uploadthing";
 
 export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
   const [code, setCode] = useState("");
   const [clippyId, setClippyId] = useState("");
-  const createClippy = async () => {
+
+  const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setSubmitted(true);
     setLoading(true);
+
     const data = await fetch("/api/createClippy", {
       method: "POST",
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text: text, url: url }),
     });
     const response = await data.json();
     setCode(response.id);
@@ -76,7 +79,7 @@ export default function Home() {
             <Button
               color="primary"
               aria-label="Copy to clipboard"
-              onClick={() => createClippy()}
+              onClick={() => createClippy({ text, url })}
             >
               Create
             </Button>
@@ -94,12 +97,16 @@ export default function Home() {
               <GrPowerReset />
             </Button>
           )}
-          <UploadButton
+          <Divider className="my-4" />
+          <div className="text-gray-600">Upload a File</div>
+          <UploadDropzone
+            className="bg-slate-200/50 p-5 rounded-3xl"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
               // Do something with the response
-              console.log("Files: ", res);
-              alert("Upload Completed");
+              setUrl(res[0].url);
+              createClippy({ text, url: res[0].url });
+              console.log("Files: ", res[0].url);
             }}
             onUploadError={(error: Error) => {
               // Do something with the error.
