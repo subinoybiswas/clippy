@@ -6,8 +6,17 @@ import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
 import { UploadDropzone } from "@/app/utils/uploadthing";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
 
 export default function Home() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -98,21 +107,37 @@ export default function Home() {
             </Button>
           )}
           <Divider className="my-4" />
-          <div className="text-gray-600">Upload a File</div>
-          <UploadDropzone
-            className="bg-slate-200/50 p-5 rounded-3xl"
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
-              setUrl(res[0].url);
-              createClippy({ text, url: res[0].url });
-              console.log("Files: ", res[0].url);
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
-          />
+          <Button onPress={onOpen} variant="flat" color="default">
+            {" "}
+            Upload File
+          </Button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent className="bg-gray-200">
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1 text-black">
+                    Upload File
+                  </ModalHeader>
+                  <ModalBody className="p-10">
+                    <UploadDropzone
+                      className="bg-slate-200/50 p-5 rounded-3xl m-5"
+                      endpoint="imageUploader"
+                      onClientUploadComplete={(res) => {
+                        // Do something with the response
+                        setUrl(res[0].url);
+                        createClippy({ text, url: res[0].url });
+                        console.log("Files: ", res[0].url);
+                      }}
+                      onUploadError={(error: Error) => {
+                        // Do something with the error.
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
+                  </ModalBody>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
         </div>
       </main>
     </NextUIProvider>
