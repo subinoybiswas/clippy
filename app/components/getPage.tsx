@@ -33,7 +33,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
     setLoading(false);
   };
 
-  const handleClippyIdChange = (e) => {
+  const handleClippyIdChange = (e: any) => {
     const input = e.target.value;
     const numericInput = input.replace(/[^\d]/g, "");
 
