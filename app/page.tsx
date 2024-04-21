@@ -5,6 +5,8 @@ import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
+import { UploadButton } from "@/app/utils/uploadthing";
+
 export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -92,6 +94,18 @@ export default function Home() {
               <GrPowerReset />
             </Button>
           )}
+          <UploadButton
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              alert("Upload Completed");
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
         </div>
       </main>
     </NextUIProvider>
