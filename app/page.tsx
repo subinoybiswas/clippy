@@ -26,7 +26,7 @@ export default function Home() {
   const getPage = (clippyId: string) => {
     router.push(`/${clippyId}`);
   };
-  const handleClippyIdChange = (e) => {
+  const handleClippyIdChange = (e: any) => {
     const input = e.target.value;
     const numericInput = input.replace(/[^\d]/g, "");
 
