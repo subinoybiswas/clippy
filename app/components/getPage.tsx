@@ -60,7 +60,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
     fetchAndHydrate(theId);
   }, []);
 
-  const downloadFile = async (ur) => {
+  const downloadFile = async (ur: string) => {
     try {
       const url = ur; // Replace with the actual URL
       const response = await fetch(url);
@@ -75,7 +75,9 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
       link.setAttribute("download", filename); // Use extracted filename
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
     } catch (error) {
       console.error("Error downloading file:", error);
     }
