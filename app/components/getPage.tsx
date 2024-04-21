@@ -8,6 +8,7 @@ import {
   Snippet,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -59,6 +60,26 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
     fetchAndHydrate(theId);
   }, []);
 
+  const downloadFile = async (ur) => {
+    try {
+      const url = ur; // Replace with the actual URL
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      // Extract filename from the URL
+      const filename = url.substring(url.lastIndexOf("/") + 1);
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", filename); // Use extracted filename
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
@@ -90,26 +111,35 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
           {loading ? (
             <Spinner />
           ) : content ? (
-            <Textarea label="Content" value={content} />
+            <>
+              <Textarea label="Content" value={content} />
+              <Button
+                isIconOnly
+                color="primary"
+                aria-label="Copy to clipboard"
+                onClick={() => {
+                  if (content) {
+                    navigator.clipboard.writeText(content);
+                  }
+                }}
+              >
+                <FaRegCopy></FaRegCopy>
+              </Button>
+            </>
           ) : null}
           {url && !loading ? (
             <>
               <Snippet symbol="">{url}</Snippet>
+              <Button
+                color="primary"
+                onClick={() => {
+                  downloadFile(url);
+                }}
+              >
+                Download File
+              </Button>
             </>
           ) : null}
-
-          <Button
-            isIconOnly
-            color="primary"
-            aria-label="Copy to clipboard"
-            onClick={() => {
-              if (content) {
-                navigator.clipboard.writeText(content);
-              }
-            }}
-          >
-            <FaRegCopy></FaRegCopy>
-          </Button>
         </div>
       </main>
     </NextUIProvider>
