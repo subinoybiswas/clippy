@@ -32,6 +32,21 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
     setContent(data.content);
     setLoading(false);
   };
+
+  const handleClippyIdChange = (e) => {
+    const input = e.target.value;
+    const numericInput = input.replace(/[^\d]/g, "");
+
+    if (numericInput.length > 6) return;
+
+    const formattedInput =
+      numericInput.slice(0, 3) +
+      (numericInput.length > 3 ? "-" + numericInput.slice(3) : "");
+
+    const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
+    setClippyId(isBackspace ? numericInput : formattedInput);
+  };
+
   useEffect(() => {
     fetchAndHydrate(theId);
   }, []);
@@ -53,7 +68,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             type="text"
             label="Clippy ID"
             value={clippyIds}
-            onChange={(e) => setClippyId(e.target.value)}
+            onChange={(e) => handleClippyIdChange(e)}
           />
           <Button
             color="primary"
