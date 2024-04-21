@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const result = await collection.findOne({ id: request.clippyId });
     if (result) {
       console.log("Result", result);
-      return NextResponse.json({ content: result.text });
+      return NextResponse.json({ content: result });
     } else {
       console.log("No data found");
       return NextResponse.json({ content: null }, { status: 404 });

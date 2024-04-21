@@ -5,19 +5,33 @@ import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
+import { UploadDropzone } from "@/app/utils/uploadthing";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+
 export default function Home() {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
   const [code, setCode] = useState("");
   const [clippyId, setClippyId] = useState("");
-  const createClippy = async () => {
+
+  const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setSubmitted(true);
     setLoading(true);
+
     const data = await fetch("/api/createClippy", {
       method: "POST",
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text: text, url: url }),
     });
     const response = await data.json();
     setCode(response.id);
@@ -74,7 +88,7 @@ export default function Home() {
             <Button
               color="primary"
               aria-label="Copy to clipboard"
-              onClick={() => createClippy()}
+              onClick={() => createClippy({ text, url })}
             >
               Create
             </Button>
@@ -92,6 +106,39 @@ export default function Home() {
               <GrPowerReset />
             </Button>
           )}
+          <Divider className="my-4" />
+          <Button onPress={onOpen} variant="flat" color="default">
+            {" "}
+            Upload File
+          </Button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent className="bg-gray-200">
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1 text-black">
+                    Upload File
+                  </ModalHeader>
+                  <ModalBody className="p-10">
+                    <UploadDropzone
+                      className="bg-slate-200/50 p-5 rounded-3xl m-5"
+                      endpoint="Uploader"
+                      onClientUploadComplete={(res) => {
+                        // Do something with the response
+                        setUrl(res[0].url);
+                        createClippy({ text, url: res[0].url });
+                        onClose();
+                        console.log("Files: ", res[0].url);
+                      }}
+                      onUploadError={(error: Error) => {
+                        // Do something with the error.
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
+                  </ModalBody>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
         </div>
       </main>
     </NextUIProvider>

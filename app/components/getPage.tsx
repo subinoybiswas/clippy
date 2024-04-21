@@ -5,14 +5,17 @@ import {
   Textarea,
   Input,
   NextUIProvider,
+  Snippet,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
-  const [content, setContent] = useState("Hello");
+  const [content, setContent] = useState(null);
+  const [url, setUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const theId = clippyId;
   const router = useRouter();
@@ -29,7 +32,13 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
       return;
     }
     const data = await response.json();
-    setContent(data.content);
+    if (data.content && data.content.text) {
+      setContent(data.content.text);
+    }
+    if (data.content && data.content.url) {
+      setUrl(data.content.url);
+    }
+
     setLoading(false);
   };
 
@@ -51,6 +60,28 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
     fetchAndHydrate(theId);
   }, []);
 
+  const downloadFile = async (ur: string) => {
+    try {
+      const url = ur; // Replace with the actual URL
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      // Extract filename from the URL
+      const filename = url.substring(url.lastIndexOf("/") + 1);
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", filename); // Use extracted filename
+      document.body.appendChild(link);
+      link.click();
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
@@ -79,18 +110,38 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             Get
           </Button>
           <Divider className="my-4" />
-          {loading ? <Spinner /> : <Textarea label="Content" value={content} />}
-
-          <Button
-            isIconOnly
-            color="primary"
-            aria-label="Copy to clipboard"
-            onClick={() => {
-              navigator.clipboard.writeText(content);
-            }}
-          >
-            <FaRegCopy></FaRegCopy>
-          </Button>
+          {loading ? (
+            <Spinner />
+          ) : content ? (
+            <>
+              <Textarea label="Content" value={content} />
+              <Button
+                isIconOnly
+                color="primary"
+                aria-label="Copy to clipboard"
+                onClick={() => {
+                  if (content) {
+                    navigator.clipboard.writeText(content);
+                  }
+                }}
+              >
+                <FaRegCopy></FaRegCopy>
+              </Button>
+            </>
+          ) : null}
+          {url && !loading ? (
+            <>
+              <Snippet symbol="">{url}</Snippet>
+              <Button
+                color="primary"
+                onClick={() => {
+                  downloadFile(url);
+                }}
+              >
+                Download File
+              </Button>
+            </>
+          ) : null}
         </div>
       </main>
     </NextUIProvider>
