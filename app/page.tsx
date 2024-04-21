@@ -121,7 +121,7 @@ export default function Home() {
                   <ModalBody className="p-10">
                     <UploadDropzone
                       className="bg-slate-200/50 p-5 rounded-3xl m-5"
-                      endpoint="imageUploader"
+                      endpoint="Uploader"
                       onClientUploadComplete={(res) => {
                         // Do something with the response
                         setUrl(res[0].url);

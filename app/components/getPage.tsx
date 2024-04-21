@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { text } from "stream/consumers";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
   const [content, setContent] = useState(null);
@@ -93,7 +92,11 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
           ) : content ? (
             <Textarea label="Content" value={content} />
           ) : null}
-          {url && !loading ? <Snippet symbol="">{url}</Snippet> : null}
+          {url && !loading ? (
+            <>
+              <Snippet symbol="">{url}</Snippet>
+            </>
+          ) : null}
 
           <Button
             isIconOnly
