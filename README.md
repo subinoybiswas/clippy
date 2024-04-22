@@ -1,6 +1,6 @@
 # Clippy
 
-Clippy is an online clipboard tool, to solve the age-old problem of coping and pasting a breeze, it aslo comes with features like file sharing. Clippy is made with Nextjs and uses MongoDB for storage.
+Clippy is an online clipboard tool, to solve the age-old problem of coping and pasting a breeze, it also comes with features like file sharing. Clippy is made with Nextjs and uses MongoDB for storage.
 
 ## Usage
 
