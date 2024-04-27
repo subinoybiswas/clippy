@@ -14,6 +14,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -56,8 +57,8 @@ export default function Home() {
 
   return (
     <NextUIProvider>
-      <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
-        <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
+      <main className="flex min-h-screen  flex-col items-center align-middle justify-center p-24 background content-center w-full">
+        <div className="flex flex-col  gap-2 items-center bg-gray-500 rounded-xl max-w-2xl w-[95vw] bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-gray-100 p-5">
           <Input
             type="text"
             label="Clippy ID"
@@ -83,8 +84,21 @@ export default function Home() {
           {loading ? (
             <Spinner />
           ) : submitted ? (
-            <Snippet symbol="">{code}</Snippet>
+            <div className="flex gap-2">
+              <Snippet symbol="">{code}</Snippet>
+              <button
+                className=" p-2 rounded-xl px-4 bg-green-900 text-white"
+                onClick={() => {
+                  window.open(
+                    `https://wa.me/?text=https://clippy.subinoy.me/${code}`
+                  );
+                }}
+              >
+                <FaWhatsapp />
+              </button>
+            </div>
           ) : (
+            // <></>
             <Button
               color="primary"
               aria-label="Copy to clipboard"
