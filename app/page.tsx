@@ -15,6 +15,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
+import Instruction from "./components/Instruction";
+
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
@@ -57,7 +59,9 @@ export default function Home() {
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
-        <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
+        <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
+          <Instruction />
+
           <Input
             type="text"
             label="Clippy ID"
