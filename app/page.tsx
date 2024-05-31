@@ -53,6 +53,10 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
+  const handleAbout=()=>{
+    router.push(`/aboutus`);
+
+  }
 
   return (
     <NextUIProvider>
@@ -110,6 +114,10 @@ export default function Home() {
           <Button onPress={onOpen} variant="flat" color="default">
             {" "}
             Upload File
+          </Button>
+          <Button onPress={handleAbout}  color="primary">
+            {" "}
+            About Us
           </Button>
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
