@@ -1,9 +1,31 @@
-// components/StickyComment.tsx
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const Instruction = () => {
+interface InstructionProps {
+  onClose: () => void;
+}
+
+const Instruction: React.FC<InstructionProps> = ({ onClose }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Function to close the Instruction component when clicked outside
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        onClose(); // Close the Instruction component
+      }
+    }
+
+    // Add event listener when component mounts
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div>
+    <div className=" inset-0 flex justify-center items-center z-50" ref={ref}>
       <div className="absolute top-5 -left-5 z-50 transform -translate-x-full">
         <div className="relative bg-white  p-4 border border-gray-300 rounded-lg shadow-lg  md:w-48 lg:w-60 text-black">
           <p>
