@@ -30,9 +30,19 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+.opening-animation{
+  animation: animate 2s forwards;
+}
+@keyframes animate {
+  from{
+    opacity: 0;
+  }to{
+    opacity: 1;
+  }
+}
+
