@@ -14,6 +14,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import Footer from "./components/footer";
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -140,6 +141,7 @@ export default function Home() {
             </ModalContent>
           </Modal>
         </div>
+        <Footer/>
       </main>
     </NextUIProvider>
   );
