@@ -11,14 +11,14 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-
 import Instruction from "./components/Instruction";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -40,9 +40,29 @@ export default function Home() {
     setCode(response.id);
     setLoading(false);
   };
-  const getPage = (clippyId: string) => {
-    router.push(`/${clippyId}`);
+
+  const checkClippyId = async (clippyId: string) => {
+    const response = await fetch("/api/checkClippy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ clippyId }),
+    });
+    const data = await response.json();
+    return data.exists;
   };
+
+  const getPage = async (clippyId: string) => {
+    const exists = await checkClippyId(clippyId);
+    if (exists) {
+      router.push(`/${clippyId}`);
+    } else {
+      toast.error("This Clippy ID doesn't exist");
+      setClippyId("")
+    }
+  };
+
   const handleClippyIdChange = (e: any) => {
     const input = e.target.value;
     const numericInput = input.replace(/[^\d]/g, "");
@@ -67,13 +87,13 @@ export default function Home() {
 
   return (
     <NextUIProvider>
+      <ToastContainer />
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
-        <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
-          {/* Instruction activate button */}
+        <div className="flex flex-col relative gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {!showInstruction && (
             <div
               onClick={toggleInstruction}
-              className="fixed right-16 bottom-16 bg-white bg-opacity-80 rounded-full py-4 px-6 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
+              className="fixed right-16 bottom-16 bg-white bg-opacity-80 rounded-full py-4 px-6 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold"
             >
               ?
             </div>
@@ -82,16 +102,9 @@ export default function Home() {
             type="text"
             label="Clippy ID"
             value={clippyId}
-            onChange={(e) => {
-              handleClippyIdChange(e);
-            }}
+            onChange={handleClippyIdChange}
           />
-          <Button
-            color="primary"
-            onClick={() => {
-              getPage(clippyId);
-            }}
-          >
+          <Button color="primary" onClick={() => getPage(clippyId)}>
             Get
           </Button>
           <Divider className="my-4" />
@@ -132,7 +145,6 @@ export default function Home() {
             Upload File
           </Button>
 
-          {/* conditional rendering of the instructions */}
           {showInstruction && <Instruction onClose={closeInstruction} />}
 
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -147,14 +159,12 @@ export default function Home() {
                       className="bg-slate-200/50 p-5 rounded-3xl m-5"
                       endpoint="Uploader"
                       onClientUploadComplete={(res) => {
-                        // Do something with the response
                         setUrl(res[0].url);
                         createClippy({ text, url: res[0].url });
                         onClose();
                         console.log("Files: ", res[0].url);
                       }}
                       onUploadError={(error: Error) => {
-                        // Do something with the error.
                         alert(`ERROR! ${error.message}`);
                       }}
                     />
