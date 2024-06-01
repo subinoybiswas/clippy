@@ -15,6 +15,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
+import Instruction from "./components/Instruction";
+
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
@@ -24,6 +26,7 @@ export default function Home() {
   const [url, setUrl] = useState("");
   const [code, setCode] = useState("");
   const [clippyId, setClippyId] = useState("");
+  const [showInstruction, setShowInstruction] = useState(false);
 
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setSubmitted(true);
@@ -54,10 +57,27 @@ export default function Home() {
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
 
+  const toggleInstruction = () => {
+    setShowInstruction((prev) => !prev);
+  };
+
+  const closeInstruction = () => {
+    setShowInstruction(false);
+  };
+
   return (
     <NextUIProvider>
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
-        <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
+        <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
+          {/* Instruction activate button */}
+          {!showInstruction && (
+            <div
+              onClick={toggleInstruction}
+              className="fixed right-16 bottom-16 bg-white bg-opacity-80 rounded-full py-4 px-6 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
+            >
+              ?
+            </div>
+          )}
           <Input
             type="text"
             label="Clippy ID"
@@ -111,6 +131,10 @@ export default function Home() {
             {" "}
             Upload File
           </Button>
+
+          {/* conditional rendering of the instructions */}
+          {showInstruction && <Instruction onClose={closeInstruction} />}
+
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
               {(onClose) => (
