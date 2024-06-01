@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/react";
 
 import Instruction from "./components/Instruction";
-
+import Footer from "./components/Footer";
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
@@ -56,10 +56,6 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
-  const handleAbout=()=>{
-    router.push(`/aboutus`);
-
-  }
 
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
@@ -172,13 +168,7 @@ export default function Home() {
             </ModalContent>
           </Modal>
         </div>
-        <footer className="absolute bottom-5">
-
-        <Button onPress={handleAbout}  color="primary">
-            {" "}
-            About Us
-          </Button>
-        </footer>
+        <Footer/>
       </main>
     </NextUIProvider>
   );
