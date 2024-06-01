@@ -35,14 +35,37 @@ body {
     text-wrap: balance;
   }
 }
-.opening-animation{
+.opening-animation {
   animation: animate 2s forwards;
 }
 @keyframes animate {
-  from{
+  from {
     opacity: 0;
-  }to{
+  }
+  to {
     opacity: 1;
   }
 }
 
+/* Style for WebKit browsers */
+::-webkit-scrollbar {
+  height: 10px;
+}
+
+/* Style for the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #4d7fffbf;
+  border-radius: 99px;
+}
+
+/* Style for the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #ddddddc7; /* Track background color */
+  border: 1px solid #8d8888; /* Track border */
+
+}
+
+/* Hide the scrollbar buttons */
+::-webkit-scrollbar-button {
+  display: none;
+}

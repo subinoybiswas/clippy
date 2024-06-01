@@ -1,0 +1,10 @@
+/* custom-scrollbar.css */
+.scrolltarget {
+  overflow-y: auto; /* Enable vertical scrollbar when needed */
+}
+.scrolltarget::-webkit-scrollbar-track {
+  background-color: #dddddd00; /* Track background color */
+  border: 0px solid #8d8888; /* Track border */
+  border-radius: 99px;
+  margin: 20px;
+}
