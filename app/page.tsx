@@ -76,6 +76,10 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
+  const handleAbout=()=>{
+    router.push(`/aboutus`);
+
+  }
 
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
@@ -88,6 +92,7 @@ export default function Home() {
   return (
     <NextUIProvider>
       <ToastContainer />
+
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {!showInstruction && (
@@ -98,6 +103,7 @@ export default function Home() {
               ?
             </div>
           )}
+
           <Input
             type="text"
             label="Clippy ID"
@@ -145,7 +151,10 @@ export default function Home() {
             Upload File
           </Button>
 
+
+          {/* conditional rendering of the instructions */}
           {showInstruction && <Instruction onClose={closeInstruction} />}
+
 
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
@@ -174,6 +183,13 @@ export default function Home() {
             </ModalContent>
           </Modal>
         </div>
+        <footer className="absolute bottom-5">
+
+        <Button onPress={handleAbout}  color="primary">
+            {" "}
+            About Us
+          </Button>
+        </footer>
       </main>
     </NextUIProvider>
   );
