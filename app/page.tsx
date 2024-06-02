@@ -74,7 +74,7 @@ export default function Home() {
           {!showInstruction && (
             <div
               onClick={toggleInstruction}
-              className="fixed right-16 bottom-16 bg-white bg-opacity-80 rounded-full py-4 px-6 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
+              className="invisible sm:visible fixed right-10 z-20 bottom-10 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
             >
               ?
             </div>
