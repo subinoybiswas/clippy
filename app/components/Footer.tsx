@@ -9,12 +9,12 @@ const Footer = () => {
         router.push(`/aboutus`);
     }
     return (
-        <div className="flex flex-col w-full p-5">
+        <div className="flex flex-col w-full p-5 absolute bottom-0">
             <div className="flex justify-center items-center gap-4 mb-2">
                 <a href="https://github.com/subinoybiswas/clippy" target='__blank'>
-                    <Image src={Github} alt="GitHub Logo" width={50} height={50} className='opacity-70 hover:opacity-100' />
+                    <Image src={Github} alt="GitHub Logo" width={35} height={35} className='opacity-70 hover:opacity-100' />
                 </a>
-                <Image src={AboutUs} alt="About Us Logo" width={50} height={50} className='opacity-70 hover:opacity-100' onClick={handleAbout} />
+                <Image src={AboutUs} alt="About Us Logo" width={35} height={35} className='opacity-70 hover:opacity-100' onClick={handleAbout} />
             </div>
             <div className="text-center">
                 <p className="text-base max-sm:text-xs text-slate-300/80">Copyright &copy;  By Clippy</p>
