@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
   const [content, setContent] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
   const theId = clippyId;
   const router = useRouter();
@@ -131,7 +131,14 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
           ) : null}
           {url && !loading ? (
             <>
-              <Snippet symbol="">{url}</Snippet>
+              <Snippet
+                symbol=""
+                codeString={url}
+                tooltipProps={{ color: "secondary" }}
+              >
+                {url.length >= 20 ? url.slice(0, 20) + "..." : url}
+              </Snippet>
+
               <Button
                 color="primary"
                 onClick={() => {

@@ -67,7 +67,6 @@ export default function Home() {
 
   return (
     <NextUIProvider>
-
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {/* Instruction activate button */}
@@ -105,7 +104,9 @@ export default function Home() {
           {loading ? (
             <Spinner />
           ) : submitted ? (
-            <Snippet symbol="">{code}</Snippet>
+            <Snippet symbol="" tooltipProps={{ color: "secondary" }}>
+              {code}
+            </Snippet>
           ) : (
             <Button
               color="primary"
@@ -134,10 +135,8 @@ export default function Home() {
             Upload File
           </Button>
 
-
           {/* conditional rendering of the instructions */}
           {showInstruction && <Instruction onClose={closeInstruction} />}
-
 
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
@@ -168,7 +167,7 @@ export default function Home() {
             </ModalContent>
           </Modal>
         </div>
-        <Footer/>
+        <Footer />
       </main>
     </NextUIProvider>
   );
