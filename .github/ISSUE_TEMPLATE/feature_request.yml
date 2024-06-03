@@ -1,39 +1,61 @@
-name: Feature request
-description: Suggest a new feature or enhancement
-title: "[FEATURE] "
-labels: [enhancement]
-assignees: ''
-
+name: ✨ Feature Request
+description: Suggest a feature
+title: "[Feature Request]: "
+labels: enhancement
 body:
-  - type: markdown
+  - type: checkboxes
+    id: existing-issue
     attributes:
-      value: |
-        Thanks for suggesting a new feature! Please provide as much detail as possible.
-
-  - type: input
-    id: feature_description
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for this feature.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    id: feature-description
     attributes:
       label: Feature Description
-      description: A clear and concise description of the feature you are requesting.
-      placeholder: Describe the feature...
-
+      description: Please provide a detailed description of the feature you are requesting.
+      placeholder: Describe the new feature or enhancement you'd like to see.
+    validations:
+      required: true
   - type: textarea
-    id: use_case
+    id: use-case
     attributes:
       label: Use Case
-      description: Describe the use case or problem this feature would address.
-      placeholder: Explain the use case...
-
-  - type: input
-    id: potential_solution
-    attributes:
-      label: Potential Solution
-      description: Describe any solutions you've considered.
-      placeholder: Describe potential solutions...
-
+      description: How would this feature enhance your use of the project?
+      placeholder: Describe a specific use case or scenario where this feature would be beneficial.
+    validations:
+      required: true
   - type: textarea
-    id: additional_context
+    id: benefits
     attributes:
-      label: Additional Context
-      description: Add any other context or screenshots about the feature request here.
-      placeholder: Provide additional context...
+      label: Benefits
+      description: What benefits would this feature bring to the project or community?
+      placeholder: Explain the advantages of implementing this feature.
+  - type: textarea
+    id: screenShots
+    attributes:
+      label: Add ScreenShots
+      description: If any...
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - High
+        - Medium
+        - Low
+      default: 0
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Record
+      options:
+        - label: "I have read the Contributing Guidelines"
+          required: true
+        - label: "I want to work on this issue"
+          required: false
