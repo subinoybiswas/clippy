@@ -11,11 +11,12 @@ COPY package*.json ./
 RUN npm install
 RUN npm install next react react-dom eslint tailwindcss typescript vite postcss autoprefixer
 
+# Install the latest version of mongodb
+RUN npm install mongodb@latest
+
 # copy other files
 COPY . .
 
-# copy .env
-COPY .env ./
 
 # port exposed where the app will work 
 EXPOSE 3000
