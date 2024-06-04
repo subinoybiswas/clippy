@@ -1,64 +1,53 @@
-name: Bug report
-description: Report a bug to help us improve
-title: "[BUG] "
-labels: [bug]
-assignees: ''
-
+name: Bug report 🐞
+description: File a bug report
+title: "[Bug]: "
+labels: bug
 body:
-  - type: markdown
+  - type: checkboxes
+    id: existing-issue
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-
-  - type: input
-    id: bug_description
-    attributes:
-      label: Bug Description
-      description: A clear and concise description of what the bug is.
-      placeholder: Describe the bug...
-
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
   - type: textarea
-    id: steps_to_reproduce
+    id: what-happened
     attributes:
-      label: Steps to Reproduce
-      description: Describe the steps to reproduce the behavior.
-      placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
-
-  - type: input
-    id: expected_behavior
+      label: Describe the bug
+      description: A concise description of what you are experiencing.
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behaviour
     attributes:
-      label: Expected Behavior
-      description: Describe what you expected to happen.
-      placeholder: Describe the expected behavior...
-
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
-      description: If applicable, add screenshots to help explain your problem.
-      placeholder: Attach screenshots or images...
-
-  - type: input
-    id: desktop_info
+      label: Add ScreenShots
+      description: Add sufficient ScreenShots to explain your issue.
+  - type: dropdown
+    id: devices
     attributes:
-      label: Desktop Information
-      description: Please complete the following information.
-      placeholder: OS, Browser, Version...
-
-  - type: input
-    id: smartphone_info
+      label: On which device are you experiencing this bug?
+      multiple: true
+      options:
+        - Android
+        - iPhone
+        - Linux
+        - Chrome
+        - Windows
+  - type: checkboxes
+    id: terms
     attributes:
-      label: Smartphone Information
-      description: Please complete the following information.
-      placeholder: Device, OS, Browser, Version...
-
-  - type: textarea
-    id: additional_context
-    attributes:
-      label: Additional Context
-      description: Add any other context about the problem here.
-      placeholder: Provide additional context...
+      label: Record
+      options:
+        - label: "I have read the Contributing Guidelines"
+          required: true
+        - label: "I want to work on this issue"
+          required: false

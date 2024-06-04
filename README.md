@@ -15,6 +15,7 @@ _Homepage_
 _Making a Clippy_
 
 ## Features
+
 - Clipboard Management: Easily copy and paste text snippets with Clippy.
 - File Sharing: Share files effortlessly using Clippy's file sharing feature.
 - Secure Storage: Clippy uses MongoDB for secure storage of your clippings and files.
@@ -25,13 +26,16 @@ To get started with this project, follow these steps:
 
 ### Installation
 
- 1. Clone this repository:
-  ```bash
-  git clone <link>
- ```
- 2. Navigate to the Project Directory:
- ```bash
- cd <filename>
+1.  Clone this repository:
+
+```bash
+git clone <link>
+```
+
+2.  Navigate to the Project Directory:
+
+```bash
+cd <filename>
 ```
 
 ### Install Dependencies:
@@ -60,29 +64,49 @@ Once you have installed the dependencies and set up the environment variables, y
 npm run dev
 ```
 
+### Dockerfile:
+
+Make sure you have `docker` & `docker compose` installed on the server / system. Both are installed by most docker utilities, including Docker Desktop and Rancher Desktop.
+
+Note: `docker compose` without the hyphen is now the primary method of using docker-compose, per the Docker documentation.
+we have a demo dockerfile
+make sure u have a .dockerignore file in the root directory of the project.
+add following lines into it
+
+```.dockerignore
+node_modules
+```
+
+now run the image with injecting the env variables into the docker itself
+
+```docker
+docker build -t clippy .
+docker run -p 3000:3000 -e MONGODB_URI=<your_mongodb_uri> -e MONGO_DB_NAME=<your_db_name> -e MONGO_COLLECTION_NAME=<your_collection_name> clippy
+```
+
 ## Contributing
+
 If you'd like to contribute to this project, feel free to open an issue or submit a pull request. Contributions are welcome! , please folloe these steps:
- 1. Fork the repository.
- 2. Create a new branch for your feature or bug fix.
- 3. Make changes and commit them.
- 4. Push your changes to your fork.
- 5. Create a pull request.
 
-### Contibuting Guidelines 
-  We believe in the power of collaboration. If you have ideas to improve College.ai, feel free to contribute! Check out our [Contribution Guidelines]https://github.com/subinoybiswas/clippy/blob/master/CONTRIBUTION.md to get started.
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make changes and commit them.
+4.  Push your changes to your fork.
+5.  Create a pull request.
 
+### Contibuting Guidelines
+
+We believe in the power of collaboration. If you have ideas to improve College.ai, feel free to contribute! Check out our [Contribution Guidelines]https://github.com/subinoybiswas/clippy/blob/master/CONTRIBUTION.md to get started.
 
 ### 📄 Documentation
 
 Explore our comprehensive documentation in the [LEARN.md] file, which serves as a detailed guide to understanding and contributing to Clippy. This document covers various aspects of the project, including setup instructions, architecture overview, and contribution guidelines. We recommend referring to this documentation to gain a deeper insight into UniCollab and make meaningful contributions to its development.
 
-### 🌟 Join Us 
+### 🌟 Join Us
 
 Ready to embark on a journey of collaborative learning? Join Clippy now and be a part of a community that believes in the power of collaboration!
 Thank you for contributing to our open-source project! We appreciate your support 🚀
 Don't forget to leave a star ⭐
 Happy Coding!!❤️
 
-
 <p align="right">{<a href="#top">Back to top</a>}</p>
-

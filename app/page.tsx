@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/react";
 
 import Instruction from "./components/Instruction";
-
+import Footer from "./components/Footer";
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
@@ -56,10 +56,6 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
-  const handleAbout=()=>{
-    router.push(`/aboutus`);
-
-  }
 
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
@@ -71,14 +67,13 @@ export default function Home() {
 
   return (
     <NextUIProvider>
-
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {/* Instruction activate button */}
           {!showInstruction && (
             <div
               onClick={toggleInstruction}
-              className="fixed right-16 bottom-16 bg-white bg-opacity-80 rounded-full py-4 px-6 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
+              className="invisible sm:visible fixed right-10 z-20 bottom-10 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
             >
               ?
             </div>
@@ -109,7 +104,9 @@ export default function Home() {
           {loading ? (
             <Spinner />
           ) : submitted ? (
-            <Snippet symbol="">{code}</Snippet>
+            <Snippet symbol="" tooltipProps={{ color: "secondary" }}>
+              {code}
+            </Snippet>
           ) : (
             <Button
               color="primary"
@@ -138,10 +135,8 @@ export default function Home() {
             Upload File
           </Button>
 
-
           {/* conditional rendering of the instructions */}
           {showInstruction && <Instruction onClose={closeInstruction} />}
-
 
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
@@ -172,13 +167,7 @@ export default function Home() {
             </ModalContent>
           </Modal>
         </div>
-        <footer className="absolute bottom-5">
-
-        <Button onPress={handleAbout}  color="primary">
-            {" "}
-            About Us
-          </Button>
-        </footer>
+        <Footer />
       </main>
     </NextUIProvider>
   );
