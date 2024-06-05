@@ -28,6 +28,8 @@ export default function Home() {
   const [clippyId, setClippyId] = useState("");
   const [showInstruction, setShowInstruction] = useState(false);
   const [isEmpty,setIsEmpty]=useState(false)
+  const [review, setReview] = useState(false);
+
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setLoading(true);
     if(text.length==0 && !url){
@@ -79,6 +81,13 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {/* Instruction activate button */}
+          <div
+        onClick={() => setReview(true)}
+        className="invisible sm:visible fixed right-10 z-20 bottom-24 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold  "
+      >
+          <img src="https://www.svgrepo.com/show/39559/message.svg" style={{padding: "8px 0"}} height={20} width={15} alt="Message Icon" />
+      </div>
+
           {!showInstruction && (
             <div
               onClick={toggleInstruction}
@@ -179,6 +188,31 @@ Please Enter Clippy or Upload Any File
                       }}
                     />
                   </ModalBody>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+
+          <Modal isOpen={review} onOpenChange={()=>setReview(false)}>
+            <ModalContent className="bg-gray-200">
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1 text-black">
+                    Review
+                  </ModalHeader>
+                  <ModalBody className="p-4">
+                    <textarea name="review" id="reeview" rows={10} className="rounded-md text-black p-2" placeholder="Clippy is a web application that allows you to create a unique URL for your text or file. You can share your review here..." ></textarea>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="primary"
+                      onClick={() => {
+                        setReview(false);
+                      }}
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
                 </>
               )}
             </ModalContent>
