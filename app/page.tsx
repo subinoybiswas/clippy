@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import {
   Modal,
@@ -27,11 +27,15 @@ export default function Home() {
   const [code, setCode] = useState("");
   const [clippyId, setClippyId] = useState("");
   const [showInstruction, setShowInstruction] = useState(false);
-
+  const [isEmpty,setIsEmpty]=useState(false)
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
-    setSubmitted(true);
     setLoading(true);
-
+    if(text.length==0 && !url){
+      setIsEmpty(true)
+      setLoading(false)
+      return
+    }
+    setSubmitted(true);
     const data = await fetch("/api/createClippy", {
       method: "POST",
       body: JSON.stringify({ text: text, url: url }),
@@ -40,6 +44,7 @@ export default function Home() {
     setCode(response.id);
     setLoading(false);
   };
+  
   const getPage = (clippyId: string) => {
     router.push(`/${clippyId}`);
   };
@@ -56,7 +61,11 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
-
+  useEffect(()=>{
+    if(text.length>0 || url.length>0){
+      setIsEmpty(false)
+    }
+  },[text,url])
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
   };
@@ -101,6 +110,15 @@ export default function Home() {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+          {isEmpty && (
+            <div className="inline-flex items-center justify-between h-fit gap-2 px-3 py-1.5 text-small rounded-medium bg-default/40 text-default-foreground">
+              <pre className="text-red-700 font-medium text-lg bg-transparent text-inherit font-mono  inline-block whitespace-nowrap"> 
+<span className="select-none">
+</span>
+Please Enter Clippy or Upload Any File
+              </pre>
+              </div>
+          )}
           {loading ? (
             <Spinner />
           ) : submitted ? (
@@ -137,7 +155,6 @@ export default function Home() {
 
           {/* conditional rendering of the instructions */}
           {showInstruction && <Instruction onClose={closeInstruction} />}
-
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent className="bg-gray-200">
               {(onClose) => (
