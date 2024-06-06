@@ -27,13 +27,13 @@ export default function Home() {
   const [code, setCode] = useState("");
   const [clippyId, setClippyId] = useState("");
   const [showInstruction, setShowInstruction] = useState(false);
-  const [isEmpty,setIsEmpty]=useState(false)
+  const [isEmpty, setIsEmpty] = useState(false);
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setLoading(true);
-    if(text.length==0 && !url){
-      setIsEmpty(true)
-      setLoading(false)
-      return
+    if (text.length == 0 && !url) {
+      setIsEmpty(true);
+      setLoading(false);
+      return;
     }
     setSubmitted(true);
     const data = await fetch("/api/createClippy", {
@@ -44,7 +44,7 @@ export default function Home() {
     setCode(response.id);
     setLoading(false);
   };
-  
+
   const getPage = (clippyId: string) => {
     router.push(`/${clippyId}`);
   };
@@ -61,11 +61,11 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
-  useEffect(()=>{
-    if(text.length>0 || url.length>0){
-      setIsEmpty(false)
+  useEffect(() => {
+    if (text.length > 0 || url.length > 0) {
+      setIsEmpty(false);
     }
-  },[text,url])
+  }, [text, url]);
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
   };
@@ -76,7 +76,7 @@ export default function Home() {
 
   return (
     <NextUIProvider>
-      <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
+      <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full ">
         <div className="flex flex-col relative  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {/* Instruction activate button */}
           {!showInstruction && (
@@ -112,12 +112,11 @@ export default function Home() {
           />
           {isEmpty && (
             <div className="inline-flex items-center justify-between h-fit gap-2 px-3 py-1.5 text-small rounded-medium bg-default/40 text-default-foreground">
-              <pre className="text-red-700 font-medium text-lg bg-transparent text-inherit font-mono  inline-block whitespace-nowrap"> 
-<span className="select-none">
-</span>
-Please Enter Clippy or Upload Any File
+              <pre className="text-red-700 font-medium text-lg bg-transparent text-inherit font-mono  inline-block whitespace-nowrap">
+                <span className="select-none"></span>
+                Please Enter Clippy or Upload Any File
               </pre>
-              </div>
+            </div>
           )}
           {loading ? (
             <Spinner />
@@ -184,7 +183,7 @@ Please Enter Clippy or Upload Any File
             </ModalContent>
           </Modal>
         </div>
-        <Footer />
+        {!submitted ? <Footer /> : <></>}
       </main>
     </NextUIProvider>
   );
