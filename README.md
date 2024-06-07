@@ -2,6 +2,21 @@
 
 Welcome to Clippy, It is an online clipboard tool, to solve the age-old problem of coping and pasting a breeze, it also comes with features like file sharing. Clippy is made with Nextjs and uses MongoDB for storage.
 
+## Table of Contents
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Setup Instructions](#setup-instructions)
+  - [Installation](#installation)
+  - [Set Up Environment Variables](#set-up-environment-variables)
+  - [Run the Development Server](#run-the-development-server)
+  - [Dockerfile](#dockerfile)
+- [Contributing](#contributing)
+  - [Contributing Guidelines](#contributing-guidelines)
+- [Documentation](#documentation)
+- [Join Us](#join-us)
+- [Our Contributors](#our-contributors)
+
 ## Usage
 
 Clippy is publically available and hosted on Vercel, you can access Clippy [here](https://clippy.subinoy.me/)
