@@ -53,7 +53,7 @@ export default function Home() {
 
 
   const sendEmail = () => {
-    const defaultEmail = "xyz@gmail.com"; // Default email address
+    const defaultEmail = process.env.MAIL_TO; // Default email address
     const mailtoLink = `mailto:${defaultEmail}?subject=Review from Clippy&body=${encodeURIComponent(message)}`;
     window.location.href = mailtoLink;
   };
