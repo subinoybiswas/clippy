@@ -56,16 +56,16 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #273c70bf;
   border-radius: 99px;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.3s ease; */
 }
 
 /* Style for the scrollbar track */
 ::-webkit-scrollbar-track {
-  background-color: #ddddddc7; /* Track background color */
-  /* border: 1px solid #8d8888; Track border */
+  background-color: #ddddddc7; 
+  background-color: transparent;
+  border: 1px solid #8d8888; 
   border-radius: 99px;
-
-}
+ }
 
 /* Hide the scrollbar buttons */
 ::-webkit-scrollbar-button {
