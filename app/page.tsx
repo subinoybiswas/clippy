@@ -234,14 +234,6 @@ export default function Home() {
                     >
                       Send Email
                     </Button>
-                    <Button
-                      color="primary"
-                      onClick={() => {
-                        setReview(false);
-                      }}
-                    >
-                      Close
-                    </Button>
                   </ModalFooter>
                 </>
               )}
