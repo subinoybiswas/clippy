@@ -92,7 +92,7 @@ export default function Home() {
     <NextUIProvider>
 
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
-        <div className="flex flex-col relative gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
+        <div className="flex flex-col relative gap-2 items-center w-[95vw] md:w-3/4 lg:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
 
           {/* Instruction activate button */}
           <div
