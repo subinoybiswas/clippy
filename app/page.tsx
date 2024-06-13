@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import {
   Modal,
@@ -14,6 +14,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
+import emailjs from '@emailjs/browser';
 
 import Instruction from "./components/Instruction";
 import Footer from "./components/Footer";
@@ -32,7 +33,8 @@ export default function Home() {
   const [isEmpty, setIsEmpty] = useState(false);
   const [review, setReview] = useState(false);
   const [message, setMessage] = useState(""); // New state for message
-
+  const [email, setemail] = useState("");
+  const [name, setName] = useState("");
 
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setLoading(true);
@@ -52,10 +54,16 @@ export default function Home() {
   };
 
 
-  const sendEmail = () => {
-    const defaultEmail = process.env.MAIL_TO; // Default email address
-    const mailtoLink = `mailto:${defaultEmail}?subject=Review from Clippy&body=${encodeURIComponent(message)}`;
-    window.location.href = mailtoLink;
+  const sendEmail = (e:any) => {
+    e.preventDefault();
+    var templateParams = {
+      name: name,
+     user_email:email,
+     message:message
+    };
+    emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, templateParams,{
+      publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
+    })
   };
 
 
@@ -216,6 +224,22 @@ export default function Home() {
                     Review
                   </ModalHeader>
                   <ModalBody className="p-4">
+                  <Input
+            type="text"
+            label="Enter Your Name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+          <Input
+            type="email"
+            label="Enter Email"
+            value={email}
+            onChange={(e) => {
+              setemail(e.target.value);
+            }}
+          />
                     <Textarea
                       label="Your Review"
                       value={message}
@@ -228,9 +252,7 @@ export default function Home() {
                   <ModalFooter>
                     <Button
                       color="primary"
-                      onClick={() => {
-                        sendEmail();
-                      }}
+                      onClick={sendEmail}
                     >
                       Send Email
                     </Button>
