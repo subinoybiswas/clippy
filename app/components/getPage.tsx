@@ -84,15 +84,20 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   };
   return (
     <NextUIProvider>
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
           <Button
-            className="self-start"
+            className="self-start flex flex-row items-center justify-center"
             color="primary"
             onClick={() => {
               router.push("/");
             }}
+            
           >
+            <div className="h-[25px]">
+            <span className="material-symbols-outlined">arrow_back</span>
+            </div>
             Return
           </Button>
           <Input
