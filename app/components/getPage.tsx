@@ -7,10 +7,8 @@ import {
   NextUIProvider,
   Snippet,
 } from "@nextui-org/react";
-import { FaRegCopy } from "react-icons/fa";
+import { FaRegCopy , FaArrowLeft } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
@@ -96,7 +94,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             }}
             
           >
-            <FontAwesomeIcon icon={ faArrowLeft} />
+            <FaArrowLeft />
             Return
           </Button>
           <Input
@@ -129,7 +127,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
                   }
                 }}
               >
-                <FaRegCopy></FaRegCopy>
+                <FaRegCopy/>
               </Button>
             </>
           ) : null}
