@@ -7,9 +7,10 @@ import {
   NextUIProvider,
   Snippet,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
-
 import { FaRegCopy } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
@@ -84,7 +85,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   };
   return (
     <NextUIProvider>
-       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
+       
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
           <Button
@@ -95,9 +96,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
             }}
             
           >
-            <div className="h-[25px]">
-            <span className="material-symbols-outlined">arrow_back</span>
-            </div>
+            <FontAwesomeIcon icon={ faArrowLeft} />
             Return
           </Button>
           <Input
