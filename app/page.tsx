@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Instruction from "./components/Instruction";
 import Footer from "./components/Footer";
-import { FaEnvelope } from "react-icons/fa"; 
+import { FaEnvelope } from "react-icons/fa";
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -35,7 +35,7 @@ export default function Home() {
   const [isEmpty, setIsEmpty] = useState(false);
   const [review, setReview] = useState(false);
   const [message, setMessage] = useState(""); // New state for message
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
@@ -77,7 +77,11 @@ export default function Home() {
       {
         publicKey: process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
       }
-    );
+    ).then((response) => {
+      console.log('SUCCESS!', response.status, response.text);
+    }).catch((error) => {
+      console.error('FAILED...', error);
+    });
   };
 
   const getPage = async (clippyId: string) => {
@@ -90,9 +94,9 @@ export default function Home() {
         body: JSON.stringify({ clippyId }),
       });
       const data = await response.json();
-      
+
       if (response.status === 404) {
-        toast.error("This ClippyID does not Exist!");
+        toast.error("This ClippyID does not exist!");
       } else {
         router.push(`/${clippyId}`);
       }
@@ -268,7 +272,7 @@ export default function Home() {
                       label="Enter Email"
                       value={email}
                       onChange={(e) => {
-                        setemail(e.target.value);
+                        setEmail(e.target.value);
                       }}
                     />
                     <Textarea

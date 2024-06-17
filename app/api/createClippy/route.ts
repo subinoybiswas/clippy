@@ -19,9 +19,9 @@ export async function POST(req: Request) {
     return formattedString;
   }
 
-  const uri = process.env.MONGODB_URI;
-  const dbname = process.env.MONGO_DB_NAME;
-  const dbcollection = process.env.MONGO_COLLECTION_NAME;
+  const uri = process.env.MONGODB_URI as string;
+  const dbname = process.env.MONGO_DB_NAME as string;
+  const dbcollection = process.env.MONGO_COLLECTION_NAME as string;
 
   console.log('MONGODB_URI:', uri);
   console.log('MONGO_DB_NAME:', dbname);
