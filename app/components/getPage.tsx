@@ -7,9 +7,8 @@ import {
   NextUIProvider,
   Snippet,
 } from "@nextui-org/react";
+import { FaRegCopy , FaArrowLeft } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
-import { FaRegCopy } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 export default function GetPage({ clippyId }: { clippyId: string }) {
@@ -84,15 +83,18 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   };
   return (
     <NextUIProvider>
+       
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
           <Button
-            className="self-start"
+            className="self-start flex flex-row items-center justify-center"
             color="primary"
             onClick={() => {
               router.push("/");
             }}
+            
           >
+            <FaArrowLeft />
             Return
           </Button>
           <Input
@@ -125,7 +127,7 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
                   }
                 }}
               >
-                <FaRegCopy></FaRegCopy>
+                <FaRegCopy/>
               </Button>
             </>
           ) : null}

@@ -101,7 +101,7 @@ docker run -p 3000:3000 -e MONGODB_URI=<your_mongodb_uri> -e MONGO_DB_NAME=<your
 
 ## Contributing
 
-If you'd like to contribute to this project, feel free to open an issue or submit a pull request. Contributions are welcome! , please folloe these steps:
+If you'd like to contribute to this project, feel free to open an issue or submit a pull request. Contributions are welcome! , please follow these steps:
 
 1.  Fork the repository.
 2.  Create a new branch for your feature or bug fix.
