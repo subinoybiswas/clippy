@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 export async function POST(req: Request) {
   const request = await req.json();
   console.log("Got Request for", request);
+
   function generateRandomString() {
     const randomNumber =
       Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
@@ -19,6 +22,19 @@ export async function POST(req: Request) {
   const uri = process.env.MONGO_URI as string;
   const dbname = process.env.MONGO_DB_NAME as string;
   const dbcollection = process.env.MONGO_COLLECTION_NAME as string;
+
+  console.log('MONGO_URI:', uri);
+  console.log('MONGO_DB_NAME:', dbname);
+  console.log('MONGO_COLLECTION_NAME:', dbcollection);
+
+  if (!uri || !dbname || !dbcollection) {
+    console.error("MongoDB environment variables are not defined");
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+
   const client = new MongoClient(uri);
   try {
     await client.connect();
@@ -34,14 +50,14 @@ export async function POST(req: Request) {
     };
     await collection.insertOne(entry);
 
-    await client.close();
-
     return NextResponse.json({ id: id });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating Clippy:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
     );
+  } finally {
+    await client.close();
   }
 }

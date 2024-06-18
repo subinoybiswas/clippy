@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { GrPowerReset } from "react-icons/gr";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import {
   Modal,
@@ -15,10 +15,12 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Instruction from "./components/Instruction";
 import Footer from "./components/Footer";
-import { FaEnvelope } from "react-icons/fa"; // Changed icon to envelope for email
+import { FaEnvelope } from "react-icons/fa";
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -33,43 +35,77 @@ export default function Home() {
   const [isEmpty, setIsEmpty] = useState(false);
   const [review, setReview] = useState(false);
   const [message, setMessage] = useState(""); // New state for message
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
   const createClippy = async ({ text, url }: { text: string; url: string }) => {
     setLoading(true);
-    if (text.length == 0 && !url) {
+    if (text.length === 0 && !url) {
       setIsEmpty(true);
       setLoading(false);
       return;
     }
     setSubmitted(true);
-    const data = await fetch("/api/createClippy", {
-      method: "POST",
-      body: JSON.stringify({ text: text, url: url }),
-    });
-    const response = await data.json();
-    setCode(response.id);
-    setLoading(false);
+    try {
+      const response = await fetch("/api/createClippy", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text, url }),
+      });
+      const data = await response.json();
+      setCode(data.id);
+    } catch (error) {
+      console.error("Error creating Clippy:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-
-  const sendEmail = (e:any) => {
+  const sendEmail = (e: any) => {
     e.preventDefault();
     var templateParams = {
       name: name,
-     user_email:email,
-     message:message
+      user_email: email,
+      message: message,
     };
-    emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, templateParams,{
-      publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
-    })
+    emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      templateParams,
+      {
+        publicKey: process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
+      }
+    ).then((response) => {
+      console.log('SUCCESS!', response.status, response.text);
+    }).catch((error) => {
+      console.error('FAILED...', error);
+    });
   };
 
+  const getPage = async (clippyId: string) => {
+    try {
+      const response = await fetch("/api/getPage", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ clippyId }),
+      });
+      const data = await response.json();
 
-  const getPage = (clippyId: string) => {
-    router.push(`/${clippyId}`);
+      if (response.status === 404) {
+        toast.error("This ClippyID does not exist!");
+      } else {
+        router.push(`/${clippyId}`);
+      }
+    } catch (error) {
+      console.error("Error fetching Clippy:", error);
+      toast.error("An error occurred while fetching the Clippy data.");
+    }
   };
+
   const handleClippyIdChange = (e: any) => {
     const input = e.target.value;
     const numericInput = input.replace(/[^\d]/g, "");
@@ -83,11 +119,13 @@ export default function Home() {
     const isBackspace = e.nativeEvent.inputType === "deleteContentBackward";
     setClippyId(isBackspace ? numericInput : formattedInput);
   };
+
   useEffect(() => {
     if (text.length > 0 || url.length > 0) {
       setIsEmpty(false);
     }
   }, [text, url]);
+
   const toggleInstruction = () => {
     setShowInstruction((prev) => !prev);
   };
@@ -98,15 +136,14 @@ export default function Home() {
 
   return (
     <NextUIProvider>
-
+      <ToastContainer />
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative gap-2 items-center w-[95vw] md:w-3/4 lg:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
-
           {/* Instruction activate button */}
           <div
             onClick={() => setReview(true)}
             className="invisible sm:visible fixed right-10 z-20 bottom-24 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold"
-            style={{padding: "14px 14px"}}
+            style={{ padding: "14px 14px" }}
           >
             <FaEnvelope size={18} />
           </div>
@@ -144,9 +181,7 @@ export default function Home() {
           />
           {isEmpty && (
             <div className="inline-flex items-center justify-between h-fit gap-2 px-3 py-1.5 text-small rounded-medium bg-default/40 text-default-foreground">
-
               <pre className="text-red-700 font-medium text-lg bg-transparent text-inherit font-mono inline-block whitespace-nowrap">
-
                 <span className="select-none"></span>
                 Please Enter Clippy or Upload Any File
               </pre>
@@ -224,22 +259,22 @@ export default function Home() {
                     Review
                   </ModalHeader>
                   <ModalBody className="p-4">
-                  <Input
-            type="text"
-            label="Enter Your Name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <Input
-            type="email"
-            label="Enter Email"
-            value={email}
-            onChange={(e) => {
-              setemail(e.target.value);
-            }}
-          />
+                    <Input
+                      type="text"
+                      label="Enter Your Name"
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
+                    <Input
+                      type="email"
+                      label="Enter Email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    />
                     <Textarea
                       label="Your Review"
                       value={message}
@@ -250,10 +285,7 @@ export default function Home() {
                     />
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      color="primary"
-                      onClick={sendEmail}
-                    >
+                    <Button color="primary" onClick={sendEmail}>
                       Send Email
                     </Button>
                   </ModalFooter>
