@@ -31,7 +31,7 @@ const Instruction: React.FC<InstructionProps> = ({ onClose }) => {
           <p>
             Enter your{" "}
             <span className="text-purple-700 font-semibold">Clippy ID </span>to
-            get the coppied text or file
+            get the copied text or file
           </p>
           <div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-full w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-white"></div>
         </div>
