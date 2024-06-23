@@ -142,7 +142,7 @@ export default function Home() {
       outerSize={35}
       innerScale={1}
       outerScale={2}
-      color="220, 220, 220"
+      color="194, 198, 204"
       />
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative gap-2 items-center w-[95vw] md:w-3/4 lg:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
