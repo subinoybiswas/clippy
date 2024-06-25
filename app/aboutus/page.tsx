@@ -3,6 +3,7 @@ import { Button, Input, Snippet, Spinner, Textarea } from "@nextui-org/react";
 import { NextUIProvider } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import "./scroll.css";
+import AnimatedCursor from "react-animated-cursor";
 
 export default function Home() {
   const router = useRouter();
@@ -54,6 +55,13 @@ export default function Home() {
   ];
   return (
     <NextUIProvider>
+      <AnimatedCursor 
+      innerSize={8}
+      outerSize={35}
+      innerScale={1}
+      outerScale={2}
+      color="194, 198, 204"
+      />
       <main className="  flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full ">
         <Button
           onPress={handleBack}

@@ -11,6 +11,7 @@ import { FaRegCopy , FaArrowLeft } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import AnimatedCursor from "react-animated-cursor";
 export default function GetPage({ clippyId }: { clippyId: string }) {
   const [clippyIds, setClippyId] = useState(clippyId);
   const [content, setContent] = useState(null);
@@ -83,7 +84,13 @@ export default function GetPage({ clippyId }: { clippyId: string }) {
   };
   return (
     <NextUIProvider>
-       
+      <AnimatedCursor 
+      innerSize={8}
+      outerSize={35}
+      innerScale={1}
+      outerScale={2}
+      color="194, 198, 204"
+      />
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col  gap-2 items-center w-[95vw] sm:w-1/2 bg-slate-200/50 p-5 rounded-3xl">
           <Button
