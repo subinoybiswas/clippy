@@ -22,6 +22,8 @@ import Instruction from "./components/Instruction";
 import Footer from "./components/Footer";
 import { FaEnvelope } from "react-icons/fa";
 import AnimatedCursor from "react-animated-cursor";
+import { BsFillPeopleFill } from "react-icons/bs";
+import Link from "next/link";
 export default function Home() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
@@ -147,6 +149,12 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full">
         <div className="flex flex-col relative gap-2 items-center w-[95vw] md:w-3/4 lg:w-1/2 bg-slate-200/50 p-5 rounded-3xl ">
           {/* Instruction activate button */}
+          <Link href={"/aboutus"}
+            className="invisible sm:visible fixed right-10 z-20 bottom-40 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold"
+            style={{ padding: "14px 14px" }}
+          >
+            <BsFillPeopleFill size={18} />
+          </Link>
           <div
             onClick={() => setReview(true)}
             className="invisible sm:visible fixed right-10 z-20 bottom-24 bg-white bg-opacity-80 rounded-full py-2 px-4 text-black text-xl hover:bg-opacity-100 cursor-pointer font-bold"

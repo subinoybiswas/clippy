@@ -62,7 +62,7 @@ export default function Home() {
       outerScale={2}
       color="194, 198, 204"
       />
-      <main className="  flex min-h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full ">
+      <main className="  flex h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full ">
         <Button
           onPress={handleBack}
           className="absolute top-6 left-4"
