@@ -111,11 +111,11 @@ If you'd like to contribute to this project, feel free to open an issue or submi
 
 ### Contibuting Guidelines
 
-We believe in the power of collaboration. If you have ideas to improve College.ai, feel free to contribute! Check out our [Contribution Guidelines]https://github.com/subinoybiswas/clippy/blob/master/CONTRIBUTION.md to get started.
+We believe in the power of collaboration. If you have ideas to improve College.ai, feel free to contribute! Check out our [Contribution Guidelines](CONTRIBUTION.md) to get started.
 
 ### 📄 Documentation
 
-Explore our comprehensive documentation in the [LEARN.md] file, which serves as a detailed guide to understanding and contributing to Clippy. This document covers various aspects of the project, including setup instructions, architecture overview, and contribution guidelines. We recommend referring to this documentation to gain a deeper insight into UniCollab and make meaningful contributions to its development.
+Explore our comprehensive documentation in the [LEARN.md](Learn.md) file, which serves as a detailed guide to understanding and contributing to Clippy. This document covers various aspects of the project, including setup instructions, architecture overview, and contribution guidelines. We recommend referring to this documentation to gain a deeper insight into UniCollab and make meaningful contributions to its development.
 
 ### 🌟 Join Us
 
