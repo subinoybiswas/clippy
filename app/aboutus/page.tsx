@@ -55,17 +55,17 @@ export default function Home() {
   ];
   return (
     <NextUIProvider>
-      <AnimatedCursor 
-      innerSize={8}
-      outerSize={35}
-      innerScale={1}
-      outerScale={2}
-      color="194, 198, 204"
+      <AnimatedCursor
+        innerSize={8}
+        outerSize={35}
+        innerScale={1}
+        outerScale={2}
+        color="194, 198, 204"
       />
       <main className="  flex h-screen flex-col items-center align-middle justify-between p-24 background content-center w-full ">
         <Button
           onPress={handleBack}
-          className="absolute top-6 left-4"
+          className="absolute bottom-36 right-4"
           color="primary"
         >
           {" "}
