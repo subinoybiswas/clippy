@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import "./footer.css";
 
 const Footer = () => {
+  const today = new Date();
+  const year = today.getFullYear();
   const router = useRouter();
   const handleAbout = () => {
     router.push(`/aboutus`);
@@ -32,7 +34,8 @@ const Footer = () => {
       </div>
       <div className="text-center">
         <p className=" text-[14px] text-slate-300/80">
-          Copyright &copy; By Clippy
+          Copyright &copy; {year} By Clippy
+        <p className="text-lg"></p>
         </p>
         <p className="text-[10px] text-slate-300/80">All rights reserved</p>
       </div>
